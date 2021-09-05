@@ -1,21 +1,30 @@
 const regex = require('./regex');
-const defaultAddressHttps = 'https://www.';
-const defaultAddressHttp = 'http://www.';
+const getTitleOfSite = require('./getTitle');
+
 const getAddress = (address) => {
+  let result = [];
   if (typeof address === 'string') {
     if (address.match(regex)) {
-      console.log(address.includes(defaultAddressHttp));
-    } else {
-      console.log('FALSE');
+       let data= getTitleOfSite(address)
+       result.push(`${address} - ${data}`)
+       return result;
+      } else {
+      result.push(`${address} - No Title Found`)
+      return result;
     }
   } else if (typeof address === 'object') {
     address.map((a) => {
       if (a.match(regex)) {
-        console.log('GOOD');
+        let data= getTitleOfSite(a)
+        result.push(`${a} - ${data}`);
+       
+        
       } else {
-        console.log('BAD');
+        // result.push("No Data Found")
+        result.push(`${a} - No Title Found`)
       }
     });
+    return result;
   }
 };
 
